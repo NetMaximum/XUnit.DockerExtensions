@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <RepositoryUrl>https://github.com/NetMaximum/XUnit.DockerExtensions</RepositoryUrl>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
