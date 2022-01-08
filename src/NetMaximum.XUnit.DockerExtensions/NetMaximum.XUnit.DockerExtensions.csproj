@@ -8,4 +8,8 @@
         <RepositoryUrl>https://github.com/NetMaximum/XUnit.DockerExtensions</RepositoryUrl>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="Ductus.FluentDocker" Version="2.10.39" />
+    </ItemGroup>
 </Project>
