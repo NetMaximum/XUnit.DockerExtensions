@@ -74,8 +74,8 @@ jobs:
       - name: Codecov
         uses: codecov/codecov-action@v1
       
-      outputs:
-        version: ${{ steps.gitversion.outputs.majorMinorPatch }}
+    outputs:
+      version: ${{ steps.gitversion.outputs.majorMinorPatch }}
 
   pushtonuget:
     name: PushToNuget
