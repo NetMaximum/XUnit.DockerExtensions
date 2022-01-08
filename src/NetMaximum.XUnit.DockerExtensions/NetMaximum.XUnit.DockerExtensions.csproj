@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <RepositoryUrl>https://github.com/NetMaximum/NetMaximum.XUnit.DockerExtensions</RepositoryUrl>
+        <RepositoryUrl>https://github.com/NetMaximum/XUnit.DockerExtensions</RepositoryUrl>
     </PropertyGroup>
 
 </Project>
