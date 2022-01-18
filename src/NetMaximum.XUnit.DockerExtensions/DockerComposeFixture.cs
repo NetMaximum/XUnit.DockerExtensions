@@ -5,31 +5,31 @@ namespace NetMaximum.XUnit.DockerExtensions;
 
 public class DockerComposeFixture
 {
-    
-    public DockerComposeFixture(string files)
+    public DockerComposeFixture(string files) : this(files, Array.Empty<WaitFor>())
     {
-        var _ = new Builder()
-            .UseContainer()
-            .UseCompose()
-            .FromFile(files)
-            .RemoveOrphans()
-           .Build().Start();
     }
 
     public DockerComposeFixture(string file, params WaitFor[] waitFors)
     {
-        var builder = new Builder()
-            .UseContainer()
-            .UseCompose()
-            .FromFile(file)
-            .RemoveOrphans();
-
-        foreach (var waitFor in waitFors)
+        try
         {
-            builder.WaitForHttp(waitFor.Service, waitFor.Url, (long)waitFor.Timeout.TotalSeconds);
+            var builder = new Builder()
+                .UseContainer()
+                .UseCompose()
+                .FromFile(file)
+                .RemoveOrphans();
+
+            foreach (var waitFor in waitFors)
+            {
+                builder.WaitForHttp(waitFor.Service, waitFor.Url, (long) waitFor.Timeout.TotalSeconds);
+            }
+
+            builder.Build().Start();
         }
-        
-        builder.Build().Start();
+        catch (Exception e)
+        {
+            throw new NetMaximumException(e.Message);
+        }
     }
 }
 
