@@ -8,14 +8,14 @@ public sealed class WaitFor
 
     public WaitFor(string service, string url, TimeSpan timeout)
     {
-        if (string.IsNullOrEmpty(service))
+        if (string.IsNullOrEmpty(service) || string.IsNullOrWhiteSpace(service))
         {
             throw new ArgumentException(nameof(service));
         }
         
-        if (string.IsNullOrEmpty(url))
+        if (string.IsNullOrEmpty(url) || string.IsNullOrWhiteSpace(url))
         {
-            throw new ArgumentException(nameof(service));
+            throw new ArgumentException(nameof(url));
         }
 
         Service = service;

@@ -3,10 +3,10 @@ using Xunit;
 
 namespace NetMaximum.XUnit.DockerExtensions;
 
-public class DockerComposeFixture : IDisposable
+public class DockerComposeFixture
 {
     
-    public DockerComposeFixture(string[] files)
+    public DockerComposeFixture(string files)
     {
         var _ = new Builder()
             .UseContainer()
@@ -16,12 +16,12 @@ public class DockerComposeFixture : IDisposable
            .Build().Start();
     }
 
-    public DockerComposeFixture(string[] files, WaitFor[] waitFors)
+    public DockerComposeFixture(string file, params WaitFor[] waitFors)
     {
         var builder = new Builder()
             .UseContainer()
             .UseCompose()
-            .FromFile(files)
+            .FromFile(file)
             .RemoveOrphans();
 
         foreach (var waitFor in waitFors)
@@ -30,10 +30,6 @@ public class DockerComposeFixture : IDisposable
         }
         
         builder.Build().Start();
-    }
-    
-    public void Dispose()
-    {
     }
 }
 
