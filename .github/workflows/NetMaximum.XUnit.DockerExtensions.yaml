@@ -26,7 +26,12 @@ jobs:
         with:
           useConfigFile: true
 
-      - name: Setup .NET Core
+      - name: Setup .NET Core 5
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.x.x
+
+      - name: Setup .NET Core 6
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.x.x
@@ -44,7 +49,7 @@ jobs:
         run: dotnet test ./NetMaximum.XUnit.DockerExtensions.sln -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal --no-restore -c Release
 
       - name: Pack
-        run: dotnet pack src/NetMaximum.XUnit.DockerExtensions/NetMaximum.XUnit.DockerExtensions.csproj --configuration Release --no-restore --verbosity normal --output nupkgs -p:PackageVersion=$GITVERSION_MAJORMINORPATCH
+        run: dotnet pack src/NetMaximum.XUnit.DockerExtensions/NetMaximum.XUnit.DockerExtensions.csproj --configuration Release --no-restore --verbosity normal --output nupkgs -p:PackageVersion=$GITVERSION_NUGETVERSION
 
       - name: Create a release
         if: github.ref == 'refs/heads/main'
@@ -55,7 +60,7 @@ jobs:
 
       - name: Push
         # if: github.event_name != 'pull_request'
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
         run: dotnet nuget push nupkgs/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
 
       - name: Tag
