@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>net5.0; net6.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <RepositoryUrl>https://github.com/NetMaximum/XUnit.DockerExtensions</RepositoryUrl>
-        <IsTestProject>false</IsTestProject>
+        <IsTestProject>false</IsTestProject>        
     </PropertyGroup>
 
     <ItemGroup>

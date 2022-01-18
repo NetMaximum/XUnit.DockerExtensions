@@ -8,10 +8,10 @@ public class UnitTest1
     public void Test1()
     {
         // Arrange
-        var subject = new DockerComposeCollection();
+        var subject = new DockerComposeFixture();
         
         // Act
-        // var result = subject.Add(1, 1);
+        
         //
         // // Assert
         // Assert.Equal(2, result);

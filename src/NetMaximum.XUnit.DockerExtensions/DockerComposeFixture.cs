@@ -8,14 +8,28 @@ public class DockerComposeFixture : IDisposable
     
     public DockerComposeFixture(string[] files)
     {
-   // var file = Path.Combine(FileUtility.FindFileDirectory(Directory.GetCurrentDirectory(), "RotaAPI.sln")!,"docker-compose.yml");
         var _ = new Builder()
             .UseContainer()
             .UseCompose()
             .FromFile(files)
             .RemoveOrphans()
-            .WaitForHttp("eventstore", "http://localhost:2113", timeout: 60000)
-            .Build().Start();
+           .Build().Start();
+    }
+
+    public DockerComposeFixture(string[] files, WaitFor[] waitFors)
+    {
+        var builder = new Builder()
+            .UseContainer()
+            .UseCompose()
+            .FromFile(files)
+            .RemoveOrphans();
+
+        foreach (var waitFor in waitFors)
+        {
+            builder.WaitForHttp(waitFor.Service, waitFor.Url, (long)waitFor.Timeout.TotalSeconds);
+        }
+        
+        builder.Build().Start();
     }
     
     public void Dispose()

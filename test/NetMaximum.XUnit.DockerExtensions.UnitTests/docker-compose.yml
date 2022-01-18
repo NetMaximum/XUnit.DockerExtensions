@@ -1,0 +1,8 @@
+version: '3.5'
+
+services:
+
+  aspnet-sample:
+    image: mcr.microsoft.com/dotnet/samples:aspnetapp
+    ports:
+        - 8000:80
