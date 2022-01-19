@@ -58,17 +58,4 @@ public class DockerComposeFixtureTests
         // Assert
         Assert.True(request.IsSuccessStatusCode);
     }
-
-    [Fact]
-    public void Should_only_init_once()
-    {
-        // Arrange
-        var fixture = new DockerComposeFixture();
-        
-        // Act
-        fixture.Init(Path.Combine(ComposePath,"docker-compose.yml"), new WaitFor("aspnet-sample", "http://localhost:8000", TimeSpan.FromSeconds(10)));
-        fixture.Init(Path.Combine(ComposePath,"docker-compose.yml"), new WaitFor("aspnet-sample", "http://localhost:8000", TimeSpan.FromSeconds(10)));
-
-        // Assert
-    }
 }
