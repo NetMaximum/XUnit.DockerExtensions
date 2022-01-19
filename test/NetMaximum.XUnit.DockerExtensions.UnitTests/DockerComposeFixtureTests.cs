@@ -16,12 +16,13 @@ public class DockerComposeFixtureTests
             "NetMaximum.XUnit.DockerExtensions.UnitTests.csproj")!;
     
     [Fact]
-    public async Task Starts_a_basic_compose()
+    public void Starts_a_basic_compose()
     {
         // Arrange - Act
         var subject = new Action(() =>
         {
-            var _ = new DockerComposeFixture(Path.Combine(ComposePath, "docker-compose.yml"));
+            var fixture = new DockerComposeFixture();
+            fixture.Init(Path.Combine(ComposePath, "docker-compose.yml"));
         });
 
         // Assert
@@ -29,12 +30,13 @@ public class DockerComposeFixtureTests
     }
     
     [Fact]
-    public async Task Trying_to_start_docker_with_missing_compose_should_throw_wrapped_exception()
+    public void Trying_to_start_docker_with_missing_compose_should_throw_wrapped_exception()
     {
         // Arrange - Act
         var subject = new Action(() =>
         {
-            var _ = new DockerComposeFixture(Path.Combine(ComposePath, "docker-missing.yml"));
+            var fixture = new DockerComposeFixture();
+            fixture.Init(Path.Combine(ComposePath, "docker-missing.yml"));
         });
 
         // Assert
@@ -45,9 +47,9 @@ public class DockerComposeFixtureTests
     public async Task Starts_a_compose_and_waits_for_service_to_be_available()
     {
         // Arrange
-        var _ = new DockerComposeFixture( 
-            Path.Combine(ComposePath,"docker-compose.yml"), 
-            new WaitFor("aspnet-sample", "http://localhost:8000", TimeSpan.FromSeconds(10)));
+        var fixture = new DockerComposeFixture();
+        
+        fixture.Init(Path.Combine(ComposePath,"docker-compose.yml"), new WaitFor("aspnet-sample", "http://localhost:8000", TimeSpan.FromSeconds(10)));
         
         // Act
         var client = new HttpClient();

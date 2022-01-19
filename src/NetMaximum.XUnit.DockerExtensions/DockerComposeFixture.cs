@@ -5,26 +5,45 @@ namespace NetMaximum.XUnit.DockerExtensions;
 
 public class DockerComposeFixture
 {
-    public DockerComposeFixture(string files) : this(files, Array.Empty<WaitFor>())
+    public bool IsInited { get; private set; } = false;
+
+    private readonly object _lockObject = new Object();
+
+    public void Init(string files)
     {
+        Init(files, Array.Empty<WaitFor>());
     }
 
-    public DockerComposeFixture(string file, params WaitFor[] waitFors)
+    public void Init(string file, params WaitFor[] waitFors)
     {
         try
         {
-            var builder = new Builder()
-                .UseContainer()
-                .UseCompose()
-                .FromFile(file)
-                .RemoveOrphans();
-
-            foreach (var waitFor in waitFors)
+            if (IsInited)
             {
-                builder.WaitForHttp(waitFor.Service, waitFor.Url, (long) waitFor.Timeout.TotalSeconds);
+                return;
             }
 
-            builder.Build().Start();
+            lock (_lockObject)
+            {
+                if (IsInited)
+                {
+                    return;
+                }
+                
+                var builder = new Builder()
+                    .UseContainer()
+                    .UseCompose()
+                    .FromFile(file)
+                    .RemoveOrphans();
+
+                foreach (var waitFor in waitFors)
+                {
+                    builder.WaitForHttp(waitFor.Service, waitFor.Url, (long) waitFor.Timeout.TotalSeconds);
+                }
+
+                builder.Build().Start();
+                IsInited = true;
+            }
         }
         catch (Exception e)
         {
